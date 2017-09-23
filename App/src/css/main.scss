@@ -1,0 +1,12 @@
+@import 'variables';
+@import 'fonts';
+
+@import 'index.scss';
+
+// slides
+@import 'slides/cover.scss';
+@import 'slides/profile.scss';
+@import 'slides/skills.scss';
+@import 'slides/contact.scss';
+
+@import 'components/navbar.scss';

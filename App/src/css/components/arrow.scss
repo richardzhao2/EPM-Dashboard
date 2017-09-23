@@ -1,0 +1,43 @@
+.arrow-container {
+  position: absolute;
+  bottom: 20px;
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover .arrow {
+    animation: bounce 1s;
+  }
+
+  .arrow {
+    width: $arrowSize;
+    height: $arrowSize;
+    transform: rotate(45deg);
+
+    border-bottom: $arrowThickness solid black;
+    border-right: $arrowThickness solid black;
+    border-radius: $arrowThickness;
+  }
+
+  @keyframes bounce {
+    10% {
+      transform: translateY(-5px) rotate(45deg);
+    }
+    25% {
+      transform: translateY(0) rotate(45deg);
+    }
+    50% {
+      transform: translateY(-3px) rotate(45deg);
+    }
+    70% {
+      transform: translateY(0) rotate(45deg);
+    }
+    90% {
+      transform: translateY(-2px) rotate(45deg);
+    }
+    100% {
+      transform: translateY(0)  rotate(45deg);
+    }
+  }
+}

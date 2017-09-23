@@ -1,0 +1,40 @@
+// avoid confusion with the other about class in the navbar
+.slide.about {
+  display: flex;
+  flex-direction: column;
+  background: $backgroundColor;
+
+  .category {
+    display: flex;
+    width: 800px;
+    flex-direction: row;
+    margin: 0 auto 0 auto;
+
+    .label {
+      display: flex;
+      width: 140px;
+
+      span {
+        font-weight: bold;
+      }
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+
+      .item {
+        display: flex;
+        flex-direction: row;
+
+        .description {
+          width: 400px;
+        }
+
+        .progress {
+          width: 150px;
+        }
+      }
+    }
+  }
+}
