@@ -10,15 +10,6 @@ var isPaused = true;
 const delta = 1;
 const timer = 40;
 const circleSize = 3;
-/*
-var data = [
-  {'game-clock': '720.00', 'time': '1477438579336', 'game-event-id': '', 'shot-clock': '24.00', 'locations': '-1,-1,47.13248,28.14078,4.80829;5,214152,52.06204,36.55583,0;5,253997,48.19851,14.86676,0;5,395374,59.89999,30.06305,0;5,551768,59.73518,30.4817,0;5,552806,48.85235,24.29689,0;18,172890,47.43618,36.39903,0;18,263220,45.68554,26.50675,0;18,276755,46.63328,14.68745,0;18,399612,11.54205,26.79228,0;18,877869,37.57692,24.91517,0'},
-  {'game-clock': '720.00', 'time': '1477438579376', 'game-event-id': '', 'shot-clock': '24.00', 'locations': '-1,-1,47.02735,28.1051,4.77021;5,214152,51.98853,36.51799,0;5,253997,48.21179,14.90437,0;5,395374,59.87765,30.07992,0;5,551768,59.76784,30.39574,0;5,552806,48.82836,24.24862,0;18,172890,47.43423,36.38794,0;18,263220,45.694,26.51621,0;18,276755,46.66147,14.67148,0;18,399612,11.49175,26.84274,0;18,877869,37.59448,24.916,0'},
-  {'game-clock': '720.00', 'time': '1477438579416', 'game-event-id': '', 'shot-clock': '24.00', 'locations': '-1,-1,47.037,28.15165,4.81177;5,214152,51.91445,36.48042,0;5,253997,48.22716,14.93942,0;5,395374,59.8548,30.09741,0;5,551768,59.79861,30.29613,0;5,552806,48.80721,24.21254,0;18,172890,47.42726,36.3817,0;18,263220,45.70306,26.52511,0;18,276755,46.6878,14.68096,0;18,399612,11.44316,26.89027,0;18,877869,37.60582,24.91469,0'},
-  {'game-clock': '720.00', 'time': '1477438579456', 'game-event-id': '', 'shot-clock': '24.00', 'locations': '-1,-1,47.00464,28.11229,4.86896;5,214152,51.84018,36.44796,0;5,253997,48.268,14.96555,0;5,395374,59.8716,30.06265,0;5,551768,59.775,30.22263,0;5,552806,48.78863,24.18705,0;18,172890,47.41658,36.37766,0;18,263220,45.70741,26.5293,0;18,276755,46.71775,14.68142,0;18,399612,11.40131,26.9369,0;18,877869,37.62093,24.91348,0'},
-  {'game-clock': '720.00', 'time': '1477438579497', 'game-event-id': '', 'shot-clock': '24.00', 'locations': '-1,-1,46.9132,28.14059,4.76157;5,214152,51.7677,36.41709,0;5,253997,48.30185,14.97203,0;5,395374,59.88597,29.95172,0;5,551768,59.75187,30.21147,0;5,552806,48.76948,24.16984,0;18,172890,47.4039,36.37484,0;18,263220,45.70938,26.52806,0;18,276755,46.73903,14.70541,0;18,399612,11.362,26.9768,0;18,877869,37.6287,24.91039,0'},
-];
-*/
 
 var update;
 
@@ -41,6 +32,20 @@ module.exports = {
 
     return result;
   },
+  process: () => {
+    $.ajax({
+      url: 'http://localhost:5000/data',
+      type: 'POST',
+      data: JSON.stringify({
+        width: 'calvin',
+        height: 'ricahrd',
+      }),
+      contentType: 'application/json',
+      dataType: 'json',
+    }).done((response) => {
+      console.log(response);
+    });
+  },
   makeGraph: () => {
     const canvas_width = 600;
     const canvas_height = 600 * 0.5744;
@@ -50,23 +55,12 @@ module.exports = {
 
     // Create scale functions
     const xScale = d3.scaleLinear()  // xScale is width of graphic
-      .domain([0, 100])
+      .domain([0, 89])
       .range([padding, canvas_width - padding * 2]); // output range
 
-      /*
-      d3.max(startData, function(d) {
-        return d[0];  // input domain
-      })])
-      */
-
     const yScale = d3.scaleLinear()  // yScale is height of graphic
-      .domain([0, 50])
-      .range([canvas_height - padding, padding]);  // remember y starts on top going down so we flip         
-        
-      /*d3.max(startData, function(d) {
-        return d[1];  // input domain
-      })])
-      */
+      .domain([0, 52])
+      .range([canvas_height - padding, padding]);  // remember y starts on top going down so we flip
 
     // Create SVG element
     var svg = d3.select('#plot')  // This is where we put our vis
@@ -105,9 +99,6 @@ module.exports = {
       // Update circles
       svg.selectAll('circle')
         .data(tempData)  // Update with new data
-
-      // update with new values
-      //svg.selectAll('cricle')
         .transition()
         .duration(100)
         .attr('cx', function(d) {
@@ -120,10 +111,11 @@ module.exports = {
 
     // On click, update with new data
     d3.select('.play')
-      .on('click', function() {
+      .on('click', () => {
         isPaused = false;
 
-        setInterval(
+        clearInterval(update);
+        update = setInterval(
           () => {
             if (frame < data.length && !isPaused) {
               var tempData = gc(frame);
@@ -135,15 +127,28 @@ module.exports = {
         );
       });
 
+    d3.select('.pause')
+      .on('click', () => {
+        clearInterval(update);
+        module.exports.process();
+      });
+
     // On click, update with new data
     d3.select('.back')
-      .on('click', function() {
-        if (frame > 5) {
-          var tempData = gc(frame);
-          frame -= 5;
-
-          updatePoints(tempData);
-        }
+      .on('click', () => {
+        isPaused = false;            
+        
+        clearInterval(update);
+        update = setInterval(
+          () => {
+            if (frame > 5 && !isPaused) {
+              var tempData = gc(frame);
+              frame -= delta;
+    
+              updatePoints(tempData);
+            }
+          }, timer
+        );
       });
   },
   pause: () => {
