@@ -2,10 +2,6 @@ const d3 = require('d3');
 
 var isPaused = true;
 
-// data
-
-// console.log(data[0]);
-
 // make graphs
 const delta = 1;
 const timer = 40;
@@ -13,6 +9,7 @@ const circleSize = 3;
 
 var update;
 
+// all the data
 var data = require('../data/NBA_LG_FINAL_SEQUENCE_OPTICAL$2016102505_Q1');
 
 var frame = 1;
@@ -33,6 +30,7 @@ module.exports = {
     return result;
   },
   process: () => {
+    // request for data
     $.ajax({
       url: 'http://localhost:5000/data',
       type: 'POST',
