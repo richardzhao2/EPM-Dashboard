@@ -1,0 +1,17 @@
+body {
+  height: 100vh;
+  background: $backgroundColor;
+  margin: 0;
+
+  font-family: 'LatoLatinWeb', 'Roboto', 'Arial';
+  color: black;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}
