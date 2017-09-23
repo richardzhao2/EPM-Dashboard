@@ -1,0 +1,59 @@
+.dashboard {
+  height: $buttonSize;
+  margin-top: 10px;
+  width: $gameWidth;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  // border: 1px solid black;
+
+  .buttons {
+    height: $buttonSize;
+    width: $buttonSize;
+    cursor: pointer;
+    transition-duration: 0.3s;
+
+    &:hover {
+      opacity: 0.5;
+    }
+
+    &.back {
+      background-image: url('../images/play.jpg') ;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: $buttonSize - 5px;
+      transform: rotate(180deg);
+    }
+
+    &.play {
+      background-image: url('../images/play.jpg') ;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: $buttonSize - 5px;
+
+      margin-left: 10px;
+    }
+    &.wrapper {
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      margin-left: 10px;
+
+      .pause {
+        height: $buttonSize - 13px; 
+        width: $buttonSize - 13px;
+        margin: auto;
+        background: url('../images/pause.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: $buttonSize - 20px;
+  
+        border-radius: 50%;
+        border: 5px solid black;
+      }
+    }
+  }
+  
+}
