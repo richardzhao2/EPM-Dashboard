@@ -7,7 +7,8 @@ var isPaused = true;
 // console.log(data[0]);
 
 // make graphs
-
+const delta = 1;
+const timer = 40;
 const circleSize = 3;
 /*
 var data = [
@@ -120,12 +121,18 @@ module.exports = {
     // On click, update with new data
     d3.select('.play')
       .on('click', function() {
-        if (frame < data.length) {
-          var tempData = gc(frame);
-          frame += 5;
+        isPaused = false;
 
-          updatePoints(tempData);
-        }
+        setInterval(
+          () => {
+            if (frame < data.length && !isPaused) {
+              var tempData = gc(frame);
+              frame += delta;
+    
+              updatePoints(tempData);
+            }
+          }, timer
+        );
       });
 
     // On click, update with new data
