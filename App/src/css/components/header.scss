@@ -1,0 +1,12 @@
+.header {
+  height: $headerHeight;
+  display: flex;
+  align-items: center;
+
+  .title{
+    span {
+      font-size: 48px;
+      
+    }
+  }
+}

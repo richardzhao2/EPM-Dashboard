@@ -2,14 +2,12 @@
 $backgroundColor: white;
 $blueMain: #148FE8;
 
-// cover
-$dotDiameter: 15px;
-$arrowSize: 20px;
-$arrowThickness: 4px;
+// widths and heights
+$headerHeight: 80px;
+$buttonSize: 60px;
 
-// contact
-$iconSize: 70px;
+// ratios
+$courtWidth: 600px;
+$courtRatio: 0.5744;
+$gameWidth: $courtWidth;
 
-// z-indices
-$zNavBar: 5;
-$zButtons: 2;
