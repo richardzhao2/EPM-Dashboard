@@ -14,7 +14,7 @@ def hello():
 @app.route('/data', methods=['POST'])
 def index():
   rdata = request.get_json()
-  
+
   print(rdata)
 
   return jsonify(rdata)
