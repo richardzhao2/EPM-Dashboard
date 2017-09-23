@@ -1,6 +1,15 @@
-// for smooth scroll animation
-$('a').click(function(){
-  $('html, body').animate({
-    scrollTop: $($(this).attr('href')).offset().top - 60,
-  }, 500);
+// plotting all the magic
+const plot = require('./plot');
+
+const play = $('.buttons.play');
+const pause = $('.buttons.wrapper .pause');
+
+play.on('click', () => {
+  plot.play();
 });
+
+pause.on('click', () => {
+  plot.pause();
+});
+
+plot.init();
