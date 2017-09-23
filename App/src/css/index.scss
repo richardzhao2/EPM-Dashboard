@@ -6,33 +6,12 @@ body {
   font-family: 'LatoLatinWeb', 'Roboto', 'Arial';
   color: black;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   a {
     text-decoration: none;
     color: black;
   }
 }
-
-.slide {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  background: $backgroundColor;
-
-  .content {
-    width: 80%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .title {
-      text-align: center;
-      border-bottom: 4px solid black;
-      margin-bottom: 20px;
-
-      span {
-        font-size: 48px;
-      }
-    }
-  }
-} 
