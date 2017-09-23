@@ -19,6 +19,8 @@ var data = [
 ];
 */
 
+var update;
+
 var data = require('../data/NBA_LG_FINAL_SEQUENCE_OPTICAL$2016102505_Q1');
 
 var frame = 1;
@@ -65,16 +67,6 @@ module.exports = {
       })])
       */
 
-    // Define X axis
-    var xAxis = d3.axisBottom()
-      .scale(xScale)
-      .ticks(5);
-
-    // Define Y axis
-    var yAxis = d3.axisLeft()
-      .scale(yScale)
-      .ticks(5);
-
     // Create SVG element
     var svg = d3.select('#plot')  // This is where we put our vis
       .append('svg')
@@ -108,51 +100,21 @@ module.exports = {
       .style('fill', 'blue')
       .attr('r', circleSize + 2);  // radius
 
-    // Add to X axis
-    svg.append('g')
-      .attr('class', 'x axis')
-      .attr('transform', 'translate(0,' + (canvas_height - padding) +')')
-      .call(xAxis);
-
-    // Add to Y axis
-    svg.append('g')
-      .attr('class', 'y axis')
-      .attr('transform', 'translate(' + padding +',0)')
-      .call(yAxis);
-
     function updatePoints (tempData) {
       // Update circles
       svg.selectAll('circle')
         .data(tempData)  // Update with new data
-        .transition()  // Transition from old to new
-        .duration(1000)  // Length of animation
-        .delay(function(d, i) {
-          return i / tempData.length * 500;  // Dynamic delay (i.e. each item delays a little longer)
-        })
-        //.ease('linear')  // Transition easing - default 'variable' (i.e. has acceleration), also: 'circle', 'elastic', 'bounce', 'linear'
+
+      // update with new values
+      //svg.selectAll('cricle')
+        .transition()
+        .duration(100)
         .attr('cx', function(d) {
           return xScale(d[0]);  // Circle's X
         })
         .attr('cy', function(d) {
           return yScale(d[1]);  // Circle's Y
-        })
-        .on('end', function() {  // End animation
-          d3.select(this)  // 'this' means the current element
-            .transition()
-            .duration(500);
         });
-
-      // Update X Axis
-      svg.select('.x.axis')
-        .transition()
-        .duration(1000)
-        .call(xAxis);
-
-      // Update Y Axis
-      svg.select('.y.axis')
-        .transition()
-        .duration(100)
-        .call(yAxis);
     }
 
     // On click, update with new data
