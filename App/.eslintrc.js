@@ -22,6 +22,6 @@ module.exports = {
     semi: ['error', 'always'],
     'no-unused-vars': ['warn'],
     'no-console': 0,
-    'no-trailing-spaces': ['error'],
+    // 'no-trailing-spaces': ['error'], NOT for this hackathon lol
   },
 };
