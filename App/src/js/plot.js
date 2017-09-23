@@ -11,6 +11,8 @@ var update;
 
 // all the data
 var data = require('../data/NBA_LG_FINAL_SEQUENCE_OPTICAL$2016102505_Q1');
+const players = require('../data/SVNames');
+const teams = require('../data/SVTeams'); 
 
 var frame = 1;
 
@@ -128,7 +130,8 @@ module.exports = {
     d3.select('.pause')
       .on('click', () => {
         clearInterval(update);
-        module.exports.process();
+        // request for processed data
+        // module.exports.process();
       });
 
     // On click, update with new data
