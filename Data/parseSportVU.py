@@ -30,8 +30,6 @@ def convertJSON(fileName):
   tempFile.write(json.dumps(obj))
   tempFile.close()
 
-
-
 if __name__== '__main__':
   # all the XML files in the SPORTVU data set
   fileNames = [f for f in listdir(dataDir) if isfile(join(dataDir, f))]
