@@ -36,29 +36,34 @@ module.exports = {
       result.push([temp[2], temp[3]]);
     }
 
-    console.log(result[0]);
-
     return result;
   },
   makeGraph: () => {
     const canvas_width = 600;
     const canvas_height = 600 * 0.5744;
-    const padding = 0;  // for chart edges
+    const padding = 30;  // for chart edges
     const gc = module.exports.getCoordinates;
     const startData = gc(0);
 
     // Create scale functions
     const xScale = d3.scaleLinear()  // xScale is width of graphic
-      .domain([0, d3.max(startData, function(d) {
-        return d[0];  // input domain
-      })])
+      .domain([0, 100])
       .range([padding, canvas_width - padding * 2]); // output range
 
+      /*
+      d3.max(startData, function(d) {
+        return d[0];  // input domain
+      })])
+      */
+
     const yScale = d3.scaleLinear()  // yScale is height of graphic
-      .domain([0, d3.max(startData, function(d) {
+      .domain([0, 50])
+      .range([canvas_height - padding, padding]);  // remember y starts on top going down so we flip         
+        
+      /*d3.max(startData, function(d) {
         return d[1];  // input domain
       })])
-      .range([canvas_height - padding, padding]);  // remember y starts on top going down so we flip   
+      */
 
     // Define X axis
     var xAxis = d3.axisBottom()
@@ -108,51 +113,47 @@ module.exports = {
     // On click, update with new data
     d3.select('.play')
       .on('click', function() {
-        if (frame < data.length && frame < 100) {
-          var tempData = gc(frame);
-          frame++;
-
-          // Update scale domains
-          xScale.domain([0, d3.max(tempData, function(d) {
-            return d[0]; })]);
-          yScale.domain([0, d3.max(tempData, function(d) {
-            return d[1]; })]);
-
-          // Update circles
-          console.log(svg.selectAll('circle'));
-
-          svg.selectAll('circle')
-            .data(tempData)  // Update with new data
-            .transition()  // Transition from old to new
-            .duration(1000)  // Length of animation
-            .delay(function(d, i) {
-              return i / tempData.length * 500;  // Dynamic delay (i.e. each item delays a little longer)
-            })
-            //.ease('linear')  // Transition easing - default 'variable' (i.e. has acceleration), also: 'circle', 'elastic', 'bounce', 'linear'
-            .attr('cx', function(d) {
-              return xScale(d[0]);  // Circle's X
-            })
-            .attr('cy', function(d) {
-              return yScale(d[1]);  // Circle's Y
-            })
-            .on('end', function() {  // End animation
-              d3.select(this)  // 'this' means the current element
-                .transition()
-                .duration(500)
-                .attr('r', circleSize);  // Change radius
-            });
-
-          // Update X Axis
-          svg.select('.x.axis')
-            .transition()
-            .duration(1000)
-            .call(xAxis);
-
-          // Update Y Axis
-          svg.select('.y.axis')
-            .transition()
-            .duration(100)
-            .call(yAxis);
+        while (frame < 1000) {
+          if (frame < data.length) {
+            var tempData = gc(frame);
+            frame++;
+  
+            // Update circles
+            console.log(svg.selectAll('circle'));
+  
+            svg.selectAll('circle')
+              .data(tempData)  // Update with new data
+              .transition()  // Transition from old to new
+              .duration(1000)  // Length of animation
+              .delay(function(d, i) {
+                return i / tempData.length * 500;  // Dynamic delay (i.e. each item delays a little longer)
+              })
+              //.ease('linear')  // Transition easing - default 'variable' (i.e. has acceleration), also: 'circle', 'elastic', 'bounce', 'linear'
+              .attr('cx', function(d) {
+                return xScale(d[0]);  // Circle's X
+              })
+              .attr('cy', function(d) {
+                return yScale(d[1]);  // Circle's Y
+              })
+              .on('end', function() {  // End animation
+                d3.select(this)  // 'this' means the current element
+                  .transition()
+                  .duration(500)
+                  .attr('r', circleSize);  // Change radius
+              });
+  
+            // Update X Axis
+            svg.select('.x.axis')
+              .transition()
+              .duration(1000)
+              .call(xAxis);
+  
+            // Update Y Axis
+            svg.select('.y.axis')
+              .transition()
+              .duration(100)
+              .call(yAxis);
+          }
         }
       });
   },
