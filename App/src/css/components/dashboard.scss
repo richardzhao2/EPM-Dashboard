@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
 
   // border: 1px solid black;
 
@@ -16,6 +17,14 @@
 
     &:hover {
       opacity: 0.5;
+    }
+
+    &.back {
+      background-image: url('../images/play.jpg') ;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: $buttonSize - 5px;
+      transform: rotate(180deg);
     }
 
     &.play {
