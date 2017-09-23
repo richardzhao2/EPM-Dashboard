@@ -1,17 +1,30 @@
 import xml.etree.ElementTree as xmlParser
+from os import listdir
+from os.path import isfile, join
+import pickle
 
-e = xmlParser.parse('Files/Sample NBA raw tracking data/NBA_LG_FINAL_SEQUENCE_OPTICAL$2016102505_Q1.xml')
+dataDir = 'Files/Sample NBA raw tracking data/'
 
-root = e.getroot()
+def parseXML(fileName):
+  e = xmlParser.parse(dataDir + fileName)
 
-boxscores = root[0][4][0][12]
+  root = e.getroot()
 
-# where moments start
-moment = boxscores[0]
+  boxscores = root[0][4][0][12]
 
-mC = 0 # number of moments
-for x in boxscores.iter('moment'):
-  print(x.attrib)
-  mC += 1
+  # where moments start
+  moment = boxscores[0]
 
-print(mC)
+  combined = []
+  for x in boxscores.iter('moment'):
+    combined.append(x.attrib)
+
+  pickle.dump(combined, open('SPORTVU/' + fileName[:-4] +'.p', 'wb'))
+
+def 
+
+if __name__== '__main__':
+  # all the XML files in the SPORTVU data set
+  fileNames = [f for f in listdir(dataDir) if isfile(join(dataDir, f))]
+  for x in range(len(fileNames)):
+    parseXML(fileNames[x])
