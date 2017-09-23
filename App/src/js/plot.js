@@ -91,12 +91,22 @@ module.exports = {
       })
       .attr('cy', function(d) {  // Circle's Y
         return yScale(d[1]);
-      })
-      .attr('r', circleSize);  // radius
+      });
 
     svg.selectAll('circle')
       .filter((d, i) => {return i == 0;})
-      .style('fill', 'red');
+      .style('fill', 'orange')
+      .attr('r', circleSize);  // radius
+
+    svg.selectAll('circle')
+      .filter((d, i) => {return ((i >= 1) && (i <= 6));})
+      .style('fill', 'red')
+      .attr('r', circleSize + 2);  // radius
+
+    svg.selectAll('circle')
+      .filter((d, i) => {return (i >= 6);})
+      .style('fill', 'blue')
+      .attr('r', circleSize + 2);  // radius
 
     // Add to X axis
     svg.append('g')
@@ -110,50 +120,60 @@ module.exports = {
       .attr('transform', 'translate(' + padding +',0)')
       .call(yAxis);
 
+    function updatePoints (tempData) {
+      // Update circles
+      svg.selectAll('circle')
+        .data(tempData)  // Update with new data
+        .transition()  // Transition from old to new
+        .duration(1000)  // Length of animation
+        .delay(function(d, i) {
+          return i / tempData.length * 500;  // Dynamic delay (i.e. each item delays a little longer)
+        })
+        //.ease('linear')  // Transition easing - default 'variable' (i.e. has acceleration), also: 'circle', 'elastic', 'bounce', 'linear'
+        .attr('cx', function(d) {
+          return xScale(d[0]);  // Circle's X
+        })
+        .attr('cy', function(d) {
+          return yScale(d[1]);  // Circle's Y
+        })
+        .on('end', function() {  // End animation
+          d3.select(this)  // 'this' means the current element
+            .transition()
+            .duration(500);
+        });
+
+      // Update X Axis
+      svg.select('.x.axis')
+        .transition()
+        .duration(1000)
+        .call(xAxis);
+
+      // Update Y Axis
+      svg.select('.y.axis')
+        .transition()
+        .duration(100)
+        .call(yAxis);
+    }
+
     // On click, update with new data
     d3.select('.play')
       .on('click', function() {
-        while (frame < 1000) {
-          if (frame < data.length) {
-            var tempData = gc(frame);
-            frame++;
-  
-            // Update circles
-            console.log(svg.selectAll('circle'));
-  
-            svg.selectAll('circle')
-              .data(tempData)  // Update with new data
-              .transition()  // Transition from old to new
-              .duration(1000)  // Length of animation
-              .delay(function(d, i) {
-                return i / tempData.length * 500;  // Dynamic delay (i.e. each item delays a little longer)
-              })
-              //.ease('linear')  // Transition easing - default 'variable' (i.e. has acceleration), also: 'circle', 'elastic', 'bounce', 'linear'
-              .attr('cx', function(d) {
-                return xScale(d[0]);  // Circle's X
-              })
-              .attr('cy', function(d) {
-                return yScale(d[1]);  // Circle's Y
-              })
-              .on('end', function() {  // End animation
-                d3.select(this)  // 'this' means the current element
-                  .transition()
-                  .duration(500)
-                  .attr('r', circleSize);  // Change radius
-              });
-  
-            // Update X Axis
-            svg.select('.x.axis')
-              .transition()
-              .duration(1000)
-              .call(xAxis);
-  
-            // Update Y Axis
-            svg.select('.y.axis')
-              .transition()
-              .duration(100)
-              .call(yAxis);
-          }
+        if (frame < data.length) {
+          var tempData = gc(frame);
+          frame += 5;
+
+          updatePoints(tempData);
+        }
+      });
+
+    // On click, update with new data
+    d3.select('.back')
+      .on('click', function() {
+        if (frame > 5) {
+          var tempData = gc(frame);
+          frame -= 5;
+
+          updatePoints(tempData);
         }
       });
   },
