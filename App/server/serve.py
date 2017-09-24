@@ -63,18 +63,11 @@ def find_shot_df(rdata):
 	else:
 		name = names[player]
   
-  rawDict = {'playerID': name, 'pts_type': str(row['PTS_TYPE']),
-		'fgm': str(row['FGM']), 'fga': str(row['FGA']), 'pts': str(row['PTS']), 'dribbles': str(row['DRIBBLES'])}
+	rawDict = {'playerID': name, 'pts_type': str(row['PTS_TYPE']), 'fgm': str(row['FGM']), 'fga': str(row['FGA']), 'pts': str(row['PTS']), 'dribbles': str(row['DRIBBLES'])}
 
-  assists = 1
-
-  rawDict['EPM'] = calcEPM(row['DRIBBLES'],
-													 loaded_model,
-													 row['SHOT_DIST'],
-													 row['CLOSEST_DEF_DIST'],
-													 row['PTS_TYPE'],
-													 assists,
-													 row["TOUCH_TIME"])
+	assists = 1
+	
+	rawDict['EPM'] = str(calcEPM(row['DRIBBLES'], loaded_model, row['SHOT_DIST'],row['CLOSE_DEF_DIST'],row['PTS_TYPE'],assists,row["TOUCH_TIME"])[0])
 
 	return rawDict
 
