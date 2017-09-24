@@ -27,7 +27,7 @@ const gameInfo = require('../data/SVUtil.json');
 const players = require('../data/SVNames');
 const teams = require('../data/SVTeams'); 
 
-var currentPlayer = 'Kyrie Irving'; // 'Carmelo Anthony';
+var currentPlayer = 'Carmelo Anthony'; // 'Carmelo Anthony';
 
 const names = [
   'LeBron James',
@@ -133,6 +133,8 @@ module.exports = {
           }
         }
 
+        console.log('nobody state', currentPlayer, playerStats[currentPlayer]);
+
         radar.updateValues([
           [
             { axis: "+/-", value: playerStats[currentPlayer]['pm'] / 10},
@@ -148,8 +150,6 @@ module.exports = {
         console.log(response);
         parseInt(response['pts_type'], response['playerID'], response['dribbles'], response['fga'], response['pts']);
         var playerID = response['playerID'];
-
-        line.updateChart({x: xx, y: parseFloat(response['EPM'])});
 
         xx++;
 
@@ -186,6 +186,7 @@ module.exports = {
         console.log(playerStats[currentPlayer]);
         
         if (playerID == currentPlayer) {
+          line.updateChart({x: xx, y: parseFloat(response['EPM'])});
           console.log('update', playerID);
 
           radar.updateValues([
