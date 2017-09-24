@@ -21,6 +21,8 @@ body {
   display: flex;
   flex-direction: row;
   width: $buttonSize + $courtWidth;
+  height: $courtWidth * $courtRatio;
+  flex-shrink: 0;
 }
 
 // get rid of canvas js annoying font

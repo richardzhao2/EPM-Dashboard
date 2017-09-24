@@ -2,6 +2,7 @@
   height: $headerHeight;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 
   .title{
     span {
