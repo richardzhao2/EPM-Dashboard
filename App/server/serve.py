@@ -9,6 +9,18 @@ import pandas as pd
 
 app = Flask(__name__)
 
+names = {
+  2544: 'LeBron James',
+2747: 'JR Smith',
+201567: 'Kevin Love',
+202681: 'Kyrie Irving',
+202684: 'Tristan Thompson',
+2546: 'Carmelo Anthony',
+201149: 'Joakim Noah',
+201584: 'Courtney Lee',
+201565: 'Derrick Rose',
+204001: 'Kristaps Porzingis',
+}
 
 def find_shot_df(rdata):
 	game_indices = set(shot_df.index[df['GAME_ID'] == rdata['gameID']].tolist())
@@ -18,7 +30,9 @@ def find_shot_df(rdata):
 
 	# get the data needed for expected shot value
 
-	return {'playerID': shot_df[index, 5], 'pts_type': shot_df[index, 17],
+	print('player id', shot_df[index, 5])
+
+	return {'playerID': names[shot_df[index, 5]], 'pts_type': shot_df[index, 17],
 		'fgm': shot_df[index, 18], 'fga': shot_df[index, 19], 'pts': shot_df[index, 20], 'dribbles': shot_df[index, 11]}
 
 def find_possess_df(rdata):
@@ -41,10 +55,8 @@ def index1():
 @app.route('/data', methods=['POST'])
 def index():
 	rdata = request.get_json() # { gameID: 3843, time: 3839, quarter: 29823434} 
-	print(rdata)
-	gameID = rdata['gameID']
-	quarter = rdata['quarter']
-	time = rdata['time']
+	print('received request')
+	return jsonify(find_shot_df(rdata))
 
 def startup():
 	shotFile = "Basketball Data/NBAPlayerTrackingData_2014-17/2016-17_nba_shot_log.csv"
