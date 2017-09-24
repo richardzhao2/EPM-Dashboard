@@ -228,14 +228,16 @@ var d = [
     ]
   ];
 
+const radarSize = 180;
+
 //Options for the Radar chart, other than default
 var mycfg = {
-	w: 200,
-	h: 200,
+	w: radarSize,
+	h: radarSize,
 	maxValue: 0.6,
 	levels: 6,
-	ExtraWidthX: 200,
-	ExtraWidthY: 200
+	ExtraWidthX: radarSize,
+	ExtraWidthY: radarSize
 }
 
 module.exports = {
