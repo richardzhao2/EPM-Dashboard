@@ -202,14 +202,14 @@ var LegendOptions = ['Smartphone','Tablet'];
 
 //Data
 var d = [
-    [
-    {axis:"Email",value:0.59},
-    {axis:"Social Networks",value:0.56},
-    {axis:"Internet Banking",value:0.42},
-    {axis:"News Sportsites",value:0.34},
-    {axis:"Search Engine",value:0.48},
-    ]
-  ];
+  [
+    { axis: "+/-", value: 0},
+    { axis: "AST", value: 0},
+    { axis: "FG%", value: 0},
+    { axis: "3P%", value: 0},
+    { axis: "PTS", value: 0},
+  ]
+];
 
 const radarSize = 180;
 

@@ -1,12 +1,18 @@
 .graphs {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-content: center;
+  width: $buttonSize * 2 + $courtWidth;
+  height: 400px;
+  flex-shrink: 0;
+  align-items: center;
 
   .radar {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .canvasjs-chart-container {
+    position: block !important;
   }
 }

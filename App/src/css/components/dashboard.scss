@@ -1,9 +1,11 @@
 .dashboard {
   height: $courtWidth * $courtRatio;
-  width: $gameWidth;
+  width: $buttonSize + 20px;
   margin-right: 20px;
+  flex-shrink: 0;
   
   .buttons-wrapper {
+    pointer-events: none;
     height: $courtWidth * $courtRatio;
     display: flex;
     flex-direction: column;
