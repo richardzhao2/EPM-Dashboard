@@ -1,0 +1,12 @@
+.graphs {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+
+  .radar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

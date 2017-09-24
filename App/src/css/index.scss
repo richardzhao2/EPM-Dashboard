@@ -2,6 +2,7 @@ body {
   height: 100vh;
   background: $backgroundColor;
   margin: 0;
+  overflow-y: scroll;
 
   font-family: 'LatoLatinWeb', 'Roboto', 'Arial';
   color: black;
@@ -20,4 +21,9 @@ body {
   display: flex;
   flex-direction: row;
   width: $buttonSize + $courtWidth;
+}
+
+// get rid of canvas js annoying font
+.canvasjs-chart-credit {
+  display: none;
 }

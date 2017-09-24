@@ -1,5 +1,6 @@
 const d3 = require('d3');
 const radar = require('./radar');
+const line = require('./line');
 
 var isPaused = true;
 
@@ -12,7 +13,7 @@ var update;
 
 // all the data
 var data = require('../data/NBA_LG_FINAL_SEQUENCE_OPTICAL$2016102505_Q1');
-const gameInfo = require('../data/SVUtil');
+const gameInfo = require('../data/SVUtil.json');
 const players = require('../data/SVNames');
 const teams = require('../data/SVTeams'); 
 
@@ -22,6 +23,7 @@ module.exports = {
   init: () => {
     module.exports.makeGraph();
     radar.init();
+    line.init();
   },
   // all the D3 goodies
   getCoordinates: (n) => {
@@ -133,6 +135,7 @@ module.exports = {
     d3.select('.pause')
       .on('click', () => {
         clearInterval(update);
+        line.updateChart({x: 2, y: 3});
         // request for processed data
         // module.exports.process();
       });
