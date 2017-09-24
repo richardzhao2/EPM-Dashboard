@@ -226,7 +226,8 @@ var mycfg = {
 module.exports = {
 	updateValues: (data) => {
 		// do something with the values to redo things
-		RadarChart.draw('.radar', d, mycfg);
+		console.log('update radar', data);
+		RadarChart.draw('.radar', data, mycfg);
 	},
   init: () => {
     //Call function to draw the Radar chart
