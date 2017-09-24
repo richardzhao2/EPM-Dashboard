@@ -19,6 +19,8 @@ const gameInfo = require('../data/SVUtil.json');
 const players = require('../data/SVNames');
 const teams = require('../data/SVTeams'); 
 
+var currentPlayer = 'LeBron James';
+
 const names = [
   'LeBron James',
   'JR Smith',
@@ -33,7 +35,7 @@ const names = [
 ];
 
 var gameStats = {
-  time: 0,
+  time: 720,
   gameID: 2016102505,
   quarter: 1,
 };
@@ -79,7 +81,17 @@ module.exports = {
       contentType: 'application/json',
       dataType: 'json',
     }).done((response) => {
+      var playerID = response['playerID'];
       
+      radar.updateValues([
+        [
+          { axis: "+/-", value: playerStats[currentPlayer]['pm']},
+          { axis: "AST", value: playerStats[currentPlayer]['ast']},
+          { axis: "FG%", value: playerStats[currentPlayer]['fg']},
+          { axis: "3P%", value: playerStats[currentPlayer]['3p']},
+          { axis: "PTS", value: playerStats[currentPlayer]['pts']},
+        ]
+      ]);
 
 
     });

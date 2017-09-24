@@ -42,6 +42,9 @@ def index1():
 def index():
 	rdata = request.get_json() # { gameID: 3843, time: 3839, quarter: 29823434} 
 	print(rdata)
+	gameID = rdata['gameID']
+	quarter = rdata['quarter']
+	time = rdata['time']
 
 def startup():
 	shotFile = "Basketball Data/NBAPlayerTrackingData_2014-17/2016-17_nba_shot_log.csv"
