@@ -1,4 +1,5 @@
 const d3 = require('d3');
+const radar = require('./radar');
 
 var isPaused = true;
 
@@ -20,6 +21,7 @@ var frame = 1;
 module.exports = {
   init: () => {
     module.exports.makeGraph();
+    radar.init();
   },
   // all the D3 goodies
   getCoordinates: (n) => {

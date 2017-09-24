@@ -100,7 +100,7 @@ var RadarChart = {
 		.attr("class", "legend")
 		.text(function(d){return d})
 		.style("font-family", "sans-serif")
-		.style("font-size", "11px")
+		.style("font-size", "14px")
 		.attr("text-anchor", "middle")
 		.attr("dy", "1.5em")
 		.attr("transform", function(d, i){return "translate(0, -10)"})
@@ -208,13 +208,9 @@ var RadarChart = {
 	tooltip = g.append('text')
 			   .style('opacity', 0)
 			   .style('font-family', 'sans-serif')
-			   .style('font-size', '13px');
+			   .style('font-size', '16px');
   }
 };
-
-
-var w = 500;
-var h = 500;
 
 var colorscale = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -229,59 +225,23 @@ var d = [
     {axis:"Internet Banking",value:0.42},
     {axis:"News Sportsites",value:0.34},
     {axis:"Search Engine",value:0.48},
-    {axis:"View Shopping sites",value:0.14},
-    {axis:"Paying Online",value:0.11},
-    {axis:"Buy Online",value:0.05},
-    {axis:"Stream Music",value:0.07},
-    {axis:"Online Gaming",value:0.12},
-    {axis:"Navigation",value:0.27},
-    {axis:"App connected to TV program",value:0.03},
-    {axis:"Offline Gaming",value:0.12},
-    {axis:"Photo Video",value:0.4},
-    {axis:"Reading",value:0.03},
-    {axis:"Listen Music",value:0.22},
-    {axis:"Watch TV",value:0.03},
-    {axis:"TV Movies Streaming",value:0.03},
-    {axis:"Listen Radio",value:0.07},
-    {axis:"Sending Money",value:0.18},
-    {axis:"Other",value:0.07},
-    {axis:"Use less Once week",value:0.08}
-    ],[
-    {axis:"Email",value:0.48},
-    {axis:"Social Networks",value:0.41},
-    {axis:"Internet Banking",value:0.27},
-    {axis:"News Sportsites",value:0.28},
-    {axis:"Search Engine",value:0.46},
-    {axis:"View Shopping sites",value:0.29},
-    {axis:"Paying Online",value:0.11},
-    {axis:"Buy Online",value:0.14},
-    {axis:"Stream Music",value:0.05},
-    {axis:"Online Gaming",value:0.19},
-    {axis:"Navigation",value:0.14},
-    {axis:"App connected to TV program",value:0.06},
-    {axis:"Offline Gaming",value:0.24},
-    {axis:"Photo Video",value:0.17},
-    {axis:"Reading",value:0.15},
-    {axis:"Listen Music",value:0.12},
-    {axis:"Watch TV",value:0.1},
-    {axis:"TV Movies Streaming",value:0.14},
-    {axis:"Listen Radio",value:0.06},
-    {axis:"Sending Money",value:0.16},
-    {axis:"Other",value:0.07},
-    {axis:"Use less Once week",value:0.17}
     ]
   ];
 
 //Options for the Radar chart, other than default
 var mycfg = {
-w: w,
-h: h,
-maxValue: 0.6,
-levels: 6,
-ExtraWidthX: 300
+	w: 200,
+	h: 200,
+	maxValue: 0.6,
+	levels: 6,
+	ExtraWidthX: 200,
+	ExtraWidthY: 200
 }
 
 module.exports = {
+	updateValues: (data) => {
+		// do something with the values to redo things
+	},
   init: () => {
     //Call function to draw the Radar chart
     //Will expect that data is in %'s

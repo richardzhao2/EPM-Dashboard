@@ -15,3 +15,9 @@ body {
     color: black;
   }
 }
+
+.main {
+  display: flex;
+  flex-direction: row;
+  width: $buttonSize + $courtWidth;
+}
