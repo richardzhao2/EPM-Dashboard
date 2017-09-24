@@ -244,5 +244,19 @@ module.exports = {
     isPaused = false;
     console.log('play');
   },
+  changePlayer: (p) => {
+  	currentPlayer = p;
+
+  	// update values to new player
+  	radar.updateValues([
+            [
+              { axis: "+/-", value: playerStats[currentPlayer]['pm'] / 10},
+              { axis: "AST", value: playerStats[currentPlayer]['ast'] / 10},
+              { axis: "FG%", value: playerStats[currentPlayer]['tfgm'] / ((playerStats[currentPlayer]['tfga']) ? (playerStats[currentPlayer]['tfga']) : 1)},
+              { axis: "3P%", value: playerStats[currentPlayer]['3fgm'] / ((playerStats[currentPlayer]['3fga']) ? (playerStats[currentPlayer]['3fga']) : 1)},
+              { axis: "PTS", value: playerStats[currentPlayer]['pts'] / 20},
+            ],
+          ]);
+  }
 };
 
