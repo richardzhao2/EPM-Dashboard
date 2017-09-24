@@ -63,15 +63,13 @@ def find_shot_df(rdata):
 	else:
 		name = names[player]
   
-	rawDict = {'playerID': name, 'pts_type': str(row['PTS_TYPE']), 'fgm': str(row['FGM']), 'fga': str(row['FGA']), 'pts': str(row['PTS']), 'dribbles': str(row['DRIBBLES'])}
+	rawDict = {'playerID': name, 'pts_type': str(row['PTS_TYPE']), 'fgm': str(row['FGM']), 'fga': str(row['FGA']), 'pts': str(row['PTS']), 'dribbles': str(row['DRIBBLES']), 'teamID': str(row['SV_TEAM_ID'])}
 
 	assists = 1
 	
 	rawDict['EPM'] = str(calcEPM(row['DRIBBLES'], loaded_model, row['SHOT_DIST'],row['CLOSE_DEF_DIST'],row['PTS_TYPE'],assists,row["TOUCH_TIME"])[0])
 
-	return {'playerID': name, 'pts_type': str(row['PTS_TYPE']),
-		'fgm': str(row['FGM']), 'fga': str(row['FGA']), 'pts': str(row['PTS']), 'dribbles': str(row['DRIBBLES']),
-		'teamID': str(row['SV_TEAM_ID'])}
+	return rawDict
 
 def find_possess_df(rdata):
 	game_indices = set(possess_df.index[possess_df['GAME_ID'] == rdata['gameID']].tolist())
@@ -99,52 +97,9 @@ def startup():
 	shotFile = dir + "game.csv"
 	shot_df = pd.read_csv(shotFile)
 
-	"""
-	possessFile = "Basketball Data/NBAPlayerTrackingData_2014-17/2016-17_nba_possession_log.csv"
-	possess_df = pd.read_csv(possessFile)
-
-	passFile = "Basketball Data/NBAPlayerTrackingData_2014-17/2016-17_nba_pass_log.csv"
-	pass_df = pd.read_csv(passFile)
-
-	svFile = "Basketball Data/NBAPlayerTrackingData_2014-17/2016-17_nba_sv_box_scores.csv"
-	sv_df = pd.read_csv(svFile)
-	"""
-
-	"""
-	print("Shot Log:")
-	for i in range(len(list(shot_df))):
-		head = list(shot_df)[i]
-		if i == 0:
-			shot_df.rename(columns={head: 'GAME_ID'}, inplace=True)
-
-	print("Possession Log:")
-	for j in range(len(list(possess_df))):
-		head = list(possess_df)[j]
-		if j == 0:
-			possess_df.rename(columns={head: 'GAME_ID'}, inplace=True)
-
-	print("Pass Log:")
-	for k in range(len(list(pass_df))):
-		head = list(pass_df)[k]
-		if k == 0:
-			 pass_df.rename(columns={head: 'GAME_ID'}, inplace=True)
-
-	print("SportVU Log:")
-	for l in range(len(list(sv_df))):
-		head = list(sv_df)[l]
-		if l == 0:
-			sv_df.rename(columns={head: 'GAME_ID'}, inplace=True)
-	"""
-
 	# print(shot_df.head())
 	print(shot_df.dtypes)
 	shot_df = shot_df.sort_values(['GAME_ID', 'GAME_CLOCK'], ascending=[True, False])
-
-	"""
-	possess_df = possess_df.sort_values(['GAME_ID', 'GAME_CLOCK_START'], ascending=[True, True])
-	pass_df = pass_df.sort_values(['GAME_ID', 'GAME_CLOCK'], ascending=[True, False])
-	sv_df = sv_df.sort_values(['GAME_ID'], ascending=[True])
-	"""
 
 if __name__ == '__main__':
 	startup()
