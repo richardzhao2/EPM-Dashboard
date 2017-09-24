@@ -1,7 +1,12 @@
 const d3 = require('d3');
 
 var RadarChart = {
-  draw: function(id, d, options){
+  draw: function(id, d, options, epm){
+
+	var red = epm * 17;
+	var green = epm * 17;
+	var blue = 60;
+
   var cfg = {
 	 radius: 5,
 	 w: 600,
@@ -18,6 +23,8 @@ var RadarChart = {
 	 ExtraWidthX: 100,
 	 ExtraWidthY: 100,
 	 color: d3.scaleOrdinal(d3.schemeCategory10),
+	 colorDarker: d3.rgb(244 - red, 66 + green, blue),
+	 colorLighter: d3.rgb(244 - red, 66 + green, blue, 0.8),
 	};
 	
 	if('undefined' !== typeof options){
@@ -40,7 +47,7 @@ var RadarChart = {
 			.attr("height", cfg.h+cfg.ExtraWidthY)
 			.append("g")
 			.attr("transform", "translate(" + cfg.TranslateX + "," + cfg.TranslateY + ")");
-			;
+
 
 	var tooltip;
 	
@@ -107,7 +114,7 @@ var RadarChart = {
 					 .append("polygon")
 					 .attr("class", "radar-chart-serie"+series)
 					 .style("stroke-width", "2px")
-					 .style("stroke", cfg.color(series))
+					 .style("stroke", cfg.colorDarker)
 					 .attr("points",function(d) {
 						 var str="";
 						 for(var pti=0;pti<d.length;pti++){
@@ -115,7 +122,7 @@ var RadarChart = {
 						 }
 						 return str;
 					  })
-					 .style("fill", function(j, i){return cfg.color(series)})
+					 .style("fill", function(j, i){return cfg.colorLighter})
 					 .style("fill-opacity", cfg.opacityArea)
 					 .on('mouseover', function (d){
 										z = "polygon."+d3.select(this).attr("class");
@@ -154,7 +161,7 @@ var RadarChart = {
 		  return cfg.h/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total));
 		})
 		.attr("data-id", function(j){return j.axis})
-		.style("fill", cfg.color(series)).style("fill-opacity", .9)
+		.style("fill", cfg.colorLighter)
 		.on('mouseover', function (d){
 					newX =  parseFloat(d3.select(this).attr('cx')) - 10;
 					newY =  parseFloat(d3.select(this).attr('cy')) - 5;
@@ -224,14 +231,14 @@ var mycfg = {
 }
 
 module.exports = {
-	updateValues: (data) => {
+	updateValues: (data, e) => {
 		// do something with the values to redo things
-		console.log('update radar', data);
-		RadarChart.draw('.radar', data, mycfg);
+		console.log('update radar', data, e);
+		RadarChart.draw('.radar', data, mycfg, e);
 	},
   init: () => {
     //Call function to draw the Radar chart
     //Will expect that data is in %'s
-    RadarChart.draw(".radar", d, mycfg);
+    RadarChart.draw(".radar", d, mycfg, 1);
   },
 };

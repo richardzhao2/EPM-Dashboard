@@ -63,9 +63,9 @@ def find_shot_df(rdata):
 	else:
 		name = names[player]
   
-	rawDict = {'playerID': name, 'pts_type': str(row['PTS_TYPE']), 'fgm': str(row['FGM']), 'fga': str(row['FGA']), 'pts': str(row['PTS']), 'dribbles': str(row['DRIBBLES']), 'teamID': str(row['SV_TEAM_ID'])}
+	assists = int(row['ASSISTS'] > 0)
 
-	assists = 1
+	rawDict = {'playerID': name, 'pts_type': str(row['PTS_TYPE']), 'fgm': str(row['FGM']), 'fga': str(row['FGA']), 'pts': str(row['PTS']), 'dribbles': str(row['DRIBBLES']), 'teamID': str(row['SV_TEAM_ID']), 'ast': str(assists)}
 	
 	rawDict['EPM'] = str(calcEPM(row['DRIBBLES'], loaded_model, row['SHOT_DIST'],row['CLOSE_DEF_DIST'],row['PTS_TYPE'],assists,row["TOUCH_TIME"])[0])
 
@@ -94,7 +94,7 @@ def index():
 
 def startup():
 	global shot_df
-	shotFile = dir + "game.csv"
+	shotFile = dir + "shotlogwa.csv"
 	shot_df = pd.read_csv(shotFile)
 
 	# print(shot_df.head())
