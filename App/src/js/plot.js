@@ -1,5 +1,6 @@
 const d3 = require('d3');
 const radar = require('./radar');
+const line = require('./line');
 
 var isPaused = true;
 
@@ -12,7 +13,7 @@ var update;
 
 // all the data
 var data = require('../data/NBA_LG_FINAL_SEQUENCE_OPTICAL$2016102505_Q1');
-const gameInfo = require('../data/SVUtil');
+const gameInfo = require('../data/SVUtil.json');
 const players = require('../data/SVNames');
 const teams = require('../data/SVTeams'); 
 
