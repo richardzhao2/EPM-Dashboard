@@ -9,48 +9,6 @@ import pandas as pd
 
 app = Flask(__name__)
 
-"""
-
-shotFile = "Basketball Data/NBAPlayerTrackingData_2014-17/2016-17_nba_shot_log.csv"
-shot_df = pd.read_csv(shotFile)
-
-possessFile = "Basketball Data/NBAPlayerTrackingData_2014-17/2016-17_nba_possession_log.csv"
-possess_df = pd.read_csv(possessFile)
-
-passFile = "Basketball Data/NBAPlayerTrackingData_2014-17/2016-17_nba_pass_log.csv"
-pass_df = pd.read_csv(passFile)
-
-svFile = "Basketball Data/NBAPlayerTrackingData_2014-17/2016-17_nba_sv_box_scores.csv"
-sv_df = pd.read_csv(svFile)
-
-print("Shot Log:")
-for i in range(len(list(shot_df))):
-	head = list(shot_df)[i]
-	if i == 0:
-		shot_df.rename(columns={head: 'GAME_ID'}, inplace=True)
-
-print("Possession Log:")
-for j in range(len(list(possess_df))):
-	head = list(possess_df)[j]
-	if j == 0:
-		possess_df.rename(columns={head: 'GAME_ID'}, inplace=True)
-
-print("Pass Log:")
-for k in range(len(list(pass_df))):
-	head = list(pass_df)[k]
-	if k == 0:
-		 pass_df.rename(columns={head: 'GAME_ID'}, inplace=True)
-
-print("SportVU Log:")
-for l in range(len(list(sv_df))):
-	head = list(sv_df)[l]
-	if l == 0:
-		sv_df.rename(columns={head: 'GAME_ID'}, inplace=True)
-
-shot_df = shot_df.sort_values(['GAME_ID', 'GAME_CLOCK'], ascending=[True, False])
-possess_df = possess_df.sort_values(['GAME_ID', 'GAME_CLOCK_START'], ascending=[True, True])
-pass_df = pass_df.sort_values(['GAME_ID', 'GAME_CLOCK'], ascending=[True, False])
-sv_df = sv_df.sort_values(['GAME_ID'], ascending=[True])
 
 def find_shot_df(rdata):
 	game_indices = set(shot_df.index[df['GAME_ID'] == rdata['gameID']].tolist())
@@ -60,13 +18,8 @@ def find_shot_df(rdata):
 
 	# get the data needed for expected shot value
 
-
-	pts_type = shot_df[index, 17]
-	fgm = shot_df[index, 18]
-	fga = shot_df[index, 19]
-	pts = shot_df[index, 20]
-	dribbles = shot_df[index, 11]
-	return pts
+	return {'playerID': shot_df[index, 5], 'pts_type': shot_df[index, 17],
+		'fgm': shot_df[index, 18], 'fga': shot_df[index, 19], 'pts': shot_df[index, 20], 'dribbles': shot_df[index, 11]}
 
 def find_possess_df(rdata):
 	game_indices = set(possess_df.index[df['GAME_ID'] == rdata['gameID']].tolist())
@@ -78,7 +31,7 @@ def find_possess_df(rdata):
 	return touches
 
 
-"""
+
 CORS(app)
 
 @app.route("/")
@@ -90,16 +43,49 @@ def index():
 	rdata = request.get_json() # { gameID: 3843, time: 3839, quarter: 29823434} 
 	print(rdata)
 
+def startup():
+	shotFile = "Basketball Data/NBAPlayerTrackingData_2014-17/2016-17_nba_shot_log.csv"
+	shot_df = pd.read_csv(shotFile)
 
+	possessFile = "Basketball Data/NBAPlayerTrackingData_2014-17/2016-17_nba_possession_log.csv"
+	possess_df = pd.read_csv(possessFile)
 
-def get_metrics(playerID, quarter, clock_time):
+	passFile = "Basketball Data/NBAPlayerTrackingData_2014-17/2016-17_nba_pass_log.csv"
+	pass_df = pd.read_csv(passFile)
 
+	svFile = "Basketball Data/NBAPlayerTrackingData_2014-17/2016-17_nba_sv_box_scores.csv"
+	sv_df = pd.read_csv(svFile)
 
+	print("Shot Log:")
+	for i in range(len(list(shot_df))):
+		head = list(shot_df)[i]
+		if i == 0:
+			shot_df.rename(columns={head: 'GAME_ID'}, inplace=True)
 
+	print("Possession Log:")
+	for j in range(len(list(possess_df))):
+		head = list(possess_df)[j]
+		if j == 0:
+			possess_df.rename(columns={head: 'GAME_ID'}, inplace=True)
 
-  print(rdata)
+	print("Pass Log:")
+	for k in range(len(list(pass_df))):
+		head = list(pass_df)[k]
+		if k == 0:
+			 pass_df.rename(columns={head: 'GAME_ID'}, inplace=True)
 
-  return jsonify(rdata)
+	print("SportVU Log:")
+	for l in range(len(list(sv_df))):
+		head = list(sv_df)[l]
+		if l == 0:
+			sv_df.rename(columns={head: 'GAME_ID'}, inplace=True)
+
+	shot_df = shot_df.sort_values(['GAME_ID', 'GAME_CLOCK'], ascending=[True, False])
+	possess_df = possess_df.sort_values(['GAME_ID', 'GAME_CLOCK_START'], ascending=[True, True])
+	pass_df = pass_df.sort_values(['GAME_ID', 'GAME_CLOCK'], ascending=[True, False])
+	sv_df = sv_df.sort_values(['GAME_ID'], ascending=[True])
+
 
 if __name__ == '__main__':
-  app.run(host='0.0.0.0')
+	startup()
+	app.run(host='localhost')
