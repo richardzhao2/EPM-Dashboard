@@ -81,6 +81,8 @@ module.exports = {
       contentType: 'application/json',
       dataType: 'json',
     }).done((response) => {
+      var playerID = response['playerID'];
+      
       radar.updateValues([
         [
           { axis: "+/-", value: playerStats[currentPlayer]['pm']},
