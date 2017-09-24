@@ -25,7 +25,100 @@ body {
   flex-shrink: 0;
 }
 
+.wrapper-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  &.two {
+    position: relative;
+  }
+}
+
 // get rid of canvas js annoying font
 .canvasjs-chart-credit {
   display: none;
+}
+
+$selectColor: rgb(87, 146, 242);
+$selectLight: rgb(124, 172, 249);
+
+$selectColor: rgb(87, 146, 242);
+$selectLight: rgb(124, 172, 249);
+
+.select {
+  display:flex;
+  flex-direction: column;
+  position:relative;
+  width:250px;
+  height:40px;
+  border-radius: 5px;
+  color: white;
+  span {
+    white: color;
+  }
+}
+
+.option {
+cursor: pointer;
+  padding:0 30px 0 10px;
+  min-height:40px;
+  display:flex;
+  align-items:center;
+  background:$selectColor;
+  border-top:#222 solid 1px;
+  position:absolute;
+  top:0;
+  width: 100%;
+  pointer-events:none;
+  order:2;
+  z-index:1;
+  transition:background .4s ease-in-out;
+  box-sizing:border-box;
+  overflow:hidden;
+  white-space:nowrap;
+  
+  span {
+    color: white;
+  }
+}
+
+.option:hover {
+  background:$selectLight;
+}
+
+.select:focus .option {
+  position:relative;
+  pointer-events:all;
+}
+
+input {
+cursor: pointer;
+border-radius: 5px;
+  opacity:0;
+  position:absolute;
+  left:-99999px;
+}
+
+input:checked + label {
+  order: 1;
+  z-index:2;
+  background:$selectColor;
+  border-top:none;
+  position:relative;
+}
+
+.select {
+cursor: pointer !important; 
+border-radius: 5px;
+  &.one {
+    margin-top: 0;
+
+  }
+  &.two {
+    position: absolute;
+    left: 40px;
+    top: 80px;
+  }
 }

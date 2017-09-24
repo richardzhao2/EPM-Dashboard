@@ -5,9 +5,11 @@ const line = require('./line');
 var isPaused = true;
 
 // make graphs
-const delta = 1;
+const delta = 5;
 const timer = 40;
 const circleSize = 3;
+
+var it = 0;
 
 var update;
 
@@ -19,7 +21,7 @@ const gameInfo = require('../data/SVUtil.json');
 const players = require('../data/SVNames');
 const teams = require('../data/SVTeams'); 
 
-var currentPlayer = 'LeBron James';
+var currentPlayer = 'Carmelo Anthony';
 
 const names = [
   'LeBron James',
@@ -46,13 +48,15 @@ for (let i = 0; i < 10; i++) {
   playerStats[names[i]] = {
     ast: 0,
     pts: 0,
-    fg: 0,
-    '3p': 0,
+    tfga: 0,
+    tfgm: 0,
+    '3fga': 0,
+    '3fgm': 0,    
     pm: 0,
   };
 }
 
-var frame = 1;
+var frame = 2000;
 
 module.exports = {
   init: () => {
@@ -81,24 +85,48 @@ module.exports = {
       contentType: 'application/json',
       dataType: 'json',
     }).done((response) => {
-      var playerID = response['playerID'];
-      
-      radar.updateValues([
-        [
-          { axis: "+/-", value: playerStats[currentPlayer]['pm']},
-          { axis: "AST", value: playerStats[currentPlayer]['ast']},
-          { axis: "FG%", value: playerStats[currentPlayer]['fg']},
-          { axis: "3P%", value: playerStats[currentPlayer]['3p']},
-          { axis: "PTS", value: playerStats[currentPlayer]['pts']},
-        ]
-      ]);
+      if(response == null) {
+        console.log('server responded with no matches');
+        return;
+      } else if (response && response['playerID'] == 'nobody') {
+        console.log('nobody matches bc they are not famous');
+        return;
+      } else {
+        console.log(response);
+        parseInt(response['pts_type'], response['playerID'], response['dribbles'], response['fga'], response['pts']);
+        var playerID = response['playerID'];
 
+        playerStats[playerID] = {
+          ast: playerStats[playerID]['ast'],
+          pts: playerStats[playerID]['pts'] + parseInt(response['pts']),
+          tfga: playerStats[playerID]['tfga'] + parseInt(response['fga']),
+          tfgm: playerStats[playerID]['tfgm'] + (parseInt(response['pts']) > 1),
+          '3fga': playerStats[playerID]['3fga'] + (parseInt(response['pts_type']) == 3),
+          '3fgm': playerStats[playerID]['3fgm'] + (parseInt(response['pts']) == 3),    
+          pm: 0,
+        };
 
+        console.log(playerStats[currentPlayer]);
+        
+        if (playerID == currentPlayer) {
+          console.log('update', playerID);
+
+          radar.updateValues([
+            [
+              { axis: "+/-", value: playerStats[currentPlayer]['pm'] / 10},
+              { axis: "AST", value: playerStats[currentPlayer]['ast'] / 10},
+              { axis: "FG%", value: playerStats[currentPlayer]['tfgm'] / ((playerStats[currentPlayer]['tfga']) ? (playerStats[currentPlayer]['tfga']) : 1)},
+              { axis: "3P%", value: playerStats[currentPlayer]['3fgm'] / ((playerStats[currentPlayer]['3fga']) ? (playerStats[currentPlayer]['3fga']) : 1)},
+              { axis: "PTS", value: playerStats[currentPlayer]['pts'] / 20},
+            ],
+          ]);
+        }
+      }
     });
   },
   makeGraph: () => {
-    const canvas_width = 600;
-    const canvas_height = 600 * 0.5744;
+    const canvas_width = 500;
+    const canvas_height = 500 * 0.5744;
     const padding = 30;  // for chart edges
     const gc = module.exports.getCoordinates;
     const startData = gc(0);
@@ -172,6 +200,10 @@ module.exports = {
               frame += delta;
     
               updatePoints(tempData);
+              if (it % 20 == 0) {
+                module.exports.process(); // get stats                
+              }
+              it++;
             }
           }, timer
         );
@@ -180,9 +212,9 @@ module.exports = {
     d3.select('.pause')
       .on('click', () => {
         clearInterval(update);
-        line.updateChart({x: 2, y: 3});
+        // line.updateChart({x: 2, y: 3});
         // request for processed data
-        module.exports.process();
+        
       });
 
     // On click, update with new data
@@ -198,6 +230,7 @@ module.exports = {
               frame -= delta;
     
               updatePoints(tempData);
+              module.exports.process(); // get stats
             }
           }, timer
         );
@@ -211,5 +244,19 @@ module.exports = {
     isPaused = false;
     console.log('play');
   },
+  changePlayer: (p) => {
+  	currentPlayer = p;
+
+  	// update values to new player
+  	radar.updateValues([
+            [
+              { axis: "+/-", value: playerStats[currentPlayer]['pm'] / 10},
+              { axis: "AST", value: playerStats[currentPlayer]['ast'] / 10},
+              { axis: "FG%", value: playerStats[currentPlayer]['tfgm'] / ((playerStats[currentPlayer]['tfga']) ? (playerStats[currentPlayer]['tfga']) : 1)},
+              { axis: "3P%", value: playerStats[currentPlayer]['3fgm'] / ((playerStats[currentPlayer]['3fga']) ? (playerStats[currentPlayer]['3fga']) : 1)},
+              { axis: "PTS", value: playerStats[currentPlayer]['pts'] / 20},
+            ],
+          ]);
+  }
 };
 
