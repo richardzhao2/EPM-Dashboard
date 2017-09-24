@@ -44,6 +44,9 @@ body {
 $selectColor: rgb(87, 146, 242);
 $selectLight: rgb(124, 172, 249);
 
+$selectColor: rgb(87, 146, 242);
+$selectLight: rgb(124, 172, 249);
+
 .select {
   display:flex;
   flex-direction: column;
@@ -51,6 +54,10 @@ $selectLight: rgb(124, 172, 249);
   width:250px;
   height:40px;
   border-radius: 5px;
+  color: white;
+  span {
+    white: color;
+  }
 }
 
 .option {
@@ -72,6 +79,9 @@ cursor: pointer;
   overflow:hidden;
   white-space:nowrap;
   
+  span {
+    color: white;
+  }
 }
 
 .option:hover {
