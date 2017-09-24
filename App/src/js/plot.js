@@ -11,11 +11,44 @@ const circleSize = 3;
 
 var update;
 
+const host = 'localhost';
+
 // all the data
 var data = require('../data/NBA_LG_FINAL_SEQUENCE_OPTICAL$2016102505_Q1');
 const gameInfo = require('../data/SVUtil.json');
 const players = require('../data/SVNames');
 const teams = require('../data/SVTeams'); 
+
+const names = [
+  'LeBron James',
+  'JR Smith',
+  'Kevin Love',
+  'Kyrie Irving',
+  'Tristan Thompson',
+  'Carmelo Anthony',
+  'Joakim Noah',
+  'Courtney Lee',
+  'Derrick Rose',
+  'Kristaps Porzingis',
+];
+
+var gameStats = {
+  time: 0,
+  gameID: 2016102505,
+  quarter: 1,
+};
+
+var playerStats = {};
+
+for (let i = 0; i < 10; i++) {
+  playerStats[names[i]] = {
+    ast: 0,
+    pts: 0,
+    fg: 0,
+    '3p': 0,
+    pm: 0,
+  };
+}
 
 var frame = 1;
 
@@ -28,6 +61,7 @@ module.exports = {
   // all the D3 goodies
   getCoordinates: (n) => {
     var result = [];
+    gameStats['time'] = data[n]['game-clock']; // update game clock
     var raw = data[n]['locations'].split(';');
     for (let i = 0; i < raw.length; i++) {
       let temp = raw[i].split(',');
@@ -39,16 +73,15 @@ module.exports = {
   process: () => {
     // request for data
     $.ajax({
-      url: 'http://localhost:5000/data',
+      url: 'http://' + host + ':5000/data',
       type: 'POST',
-      data: JSON.stringify({
-        width: 'calvin',
-        height: 'ricahrd',
-      }),
+      data: JSON.stringify(gameStats),
       contentType: 'application/json',
       dataType: 'json',
     }).done((response) => {
-      console.log(response);
+      
+
+
     });
   },
   makeGraph: () => {
@@ -137,7 +170,7 @@ module.exports = {
         clearInterval(update);
         line.updateChart({x: 2, y: 3});
         // request for processed data
-        // module.exports.process();
+        module.exports.process();
       });
 
     // On click, update with new data
