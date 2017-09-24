@@ -100,7 +100,7 @@ var RadarChart = {
 		.attr("class", "legend")
 		.text(function(d){return d})
 		.style("font-family", "sans-serif")
-		.style("font-size", "11px")
+		.style("font-size", "14px")
 		.attr("text-anchor", "middle")
 		.attr("dy", "1.5em")
 		.attr("transform", function(d, i){return "translate(0, -10)"})
@@ -208,13 +208,9 @@ var RadarChart = {
 	tooltip = g.append('text')
 			   .style('opacity', 0)
 			   .style('font-family', 'sans-serif')
-			   .style('font-size', '13px');
+			   .style('font-size', '16px');
   }
 };
-
-
-var w = 500;
-var h = 500;
 
 var colorscale = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -274,14 +270,18 @@ var d = [
 
 //Options for the Radar chart, other than default
 var mycfg = {
-w: w,
-h: h,
-maxValue: 0.6,
-levels: 6,
-ExtraWidthX: 300
+	w: 200,
+	h: 200,
+	maxValue: 0.6,
+	levels: 6,
+	ExtraWidthX: 200,
+	ExtraWidthY: 200
 }
 
 module.exports = {
+	updateValues: (data) => {
+		// do something with the values to redo things
+	},
   init: () => {
     //Call function to draw the Radar chart
     //Will expect that data is in %'s
