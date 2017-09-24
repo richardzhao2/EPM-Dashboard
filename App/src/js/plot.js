@@ -27,7 +27,7 @@ const gameInfo = require('../data/SVUtil.json');
 const players = require('../data/SVNames');
 const teams = require('../data/SVTeams'); 
 
-var currentPlayer = 'Carmelo Anthony';
+var currentPlayer = 'Kyrie Irving'; // 'Carmelo Anthony';
 
 const names = [
   'LeBron James',
@@ -75,6 +75,7 @@ for (let i = 0; i < 10; i++) {
     '3fga': 0,
     '3fgm': 0,    
     pm: 0,
+    epm: 0,
   };
 }
 
@@ -139,8 +140,8 @@ module.exports = {
             { axis: "FG%", value: playerStats[currentPlayer]['tfgm'] / ((playerStats[currentPlayer]['tfga']) ? (playerStats[currentPlayer]['tfga']) : 1)},
             { axis: "3P%", value: playerStats[currentPlayer]['3fgm'] / ((playerStats[currentPlayer]['3fga']) ? (playerStats[currentPlayer]['3fga']) : 1)},
             { axis: "PTS", value: playerStats[currentPlayer]['pts'] / 20},
-          ],
-        ]);
+          ], 
+        ], playerStats[currentPlayer]['epm']);
 
         return;
       } else {
@@ -152,14 +153,34 @@ module.exports = {
 
         xx++;
 
+        if(parseInt(response['teamID']) == 5) {
+          points = parseInt(response['pts']);
+          knicksScore += points;
+
+          for(let i=0; i<5; i++) {
+            playerStats[cavsN[i]]['pm'] -= points;
+            playerStats[knicksN[i]]['pm'] += points;            
+          }
+
+        } else {
+          points = parseInt(response['pts']);
+          cavsScore += points;
+
+          for(let i=0; i<5; i++) {
+            playerStats[cavsN[i]]['pm'] += points;
+            playerStats[knicksN[i]]['pm'] -= points;            
+          }
+        }
+
         playerStats[playerID] = {
-          ast: playerStats[playerID]['ast'],
+          ast: playerStats[playerID]['ast'] + parseInt(response['ast']),
           pts: playerStats[playerID]['pts'] + parseInt(response['pts']),
           tfga: playerStats[playerID]['tfga'] + parseInt(response['fga']),
           tfgm: playerStats[playerID]['tfgm'] + (parseInt(response['pts']) > 1),
           '3fga': playerStats[playerID]['3fga'] + (parseInt(response['pts_type']) == 3),
           '3fgm': playerStats[playerID]['3fgm'] + (parseInt(response['pts']) == 3),    
-          pm: 0,
+          pm: playerStats[playerID]['epm'],
+          epm: parseInt(response['EPM']),
         };
 
         console.log(playerStats[currentPlayer]);
@@ -174,8 +195,8 @@ module.exports = {
               { axis: "FG%", value: playerStats[currentPlayer]['tfgm'] / ((playerStats[currentPlayer]['tfga']) ? (playerStats[currentPlayer]['tfga']) : 1)},
               { axis: "3P%", value: playerStats[currentPlayer]['3fgm'] / ((playerStats[currentPlayer]['3fga']) ? (playerStats[currentPlayer]['3fga']) : 1)},
               { axis: "PTS", value: playerStats[currentPlayer]['pts'] / 20},
-            ],
-          ]);
+            ], 
+          ], playerStats[currentPlayer]['epm']);
         }
       }
     });
@@ -305,14 +326,15 @@ module.exports = {
 
   	// update values to new player
   	radar.updateValues([
-            [
-              { axis: "+/-", value: playerStats[currentPlayer]['pm'] / 10},
-              { axis: "AST", value: playerStats[currentPlayer]['ast'] / 10},
-              { axis: "FG%", value: playerStats[currentPlayer]['tfgm'] / ((playerStats[currentPlayer]['tfga']) ? (playerStats[currentPlayer]['tfga']) : 1)},
-              { axis: "3P%", value: playerStats[currentPlayer]['3fgm'] / ((playerStats[currentPlayer]['3fga']) ? (playerStats[currentPlayer]['3fga']) : 1)},
-              { axis: "PTS", value: playerStats[currentPlayer]['pts'] / 20},
-            ],
-          ]);
+      [
+        { axis: "+/-", value: playerStats[currentPlayer]['pm'] / 10},
+        { axis: "AST", value: playerStats[currentPlayer]['ast'] / 10},
+        { axis: "FG%", value: playerStats[currentPlayer]['tfgm'] / ((playerStats[currentPlayer]['tfga']) ? (playerStats[currentPlayer]['tfga']) : 1)},
+        { axis: "3P%", value: playerStats[currentPlayer]['3fgm'] / ((playerStats[currentPlayer]['3fga']) ? (playerStats[currentPlayer]['3fga']) : 1)},
+        { axis: "PTS", value: playerStats[currentPlayer]['pts'] / 20},
+      ],
+    ], 
+    playerStats[currentPlayer]['epm']);
   }
 };
 
