@@ -23,6 +23,7 @@ module.exports = {
   init: () => {
     module.exports.makeGraph();
     radar.init();
+    line.init();
   },
   // all the D3 goodies
   getCoordinates: (n) => {
@@ -134,6 +135,7 @@ module.exports = {
     d3.select('.pause')
       .on('click', () => {
         clearInterval(update);
+        line.updateChart({x: 2, y: 3});
         // request for processed data
         // module.exports.process();
       });
