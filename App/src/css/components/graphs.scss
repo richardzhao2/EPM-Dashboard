@@ -12,7 +12,8 @@
     align-items: center;
   }
 
-  .canvasjs-chart-container {
-    position: block !important;
+  .canvasjs-chart-canvas {
+    // position: block !important;
+    bottom: -50px;
   }
 }
