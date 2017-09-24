@@ -12,6 +12,8 @@ const circleSize = 3;
 
 var it = 0;
 
+var xx = 0;
+
 var update;
 
 var knicksScore =0;
@@ -145,6 +147,10 @@ module.exports = {
         console.log(response);
         parseInt(response['pts_type'], response['playerID'], response['dribbles'], response['fga'], response['pts']);
         var playerID = response['playerID'];
+
+        line.updateChart({x: xx, y: parseFloat(response['EPM'])});
+
+        xx++;
 
         playerStats[playerID] = {
           ast: playerStats[playerID]['ast'],
