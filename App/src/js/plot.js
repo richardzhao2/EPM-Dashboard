@@ -3,6 +3,7 @@ const radar = require('./radar');
 const line = require('./line');
 
 var isPaused = true;
+var points;
 
 // make graphs
 const delta = 5;
@@ -12,6 +13,9 @@ const circleSize = 3;
 var it = 0;
 
 var update;
+
+var knicksScore =0;
+var cavsScore = 0;
 
 const host = 'localhost';
 
@@ -29,6 +33,22 @@ const names = [
   'Kevin Love',
   'Kyrie Irving',
   'Tristan Thompson',
+  'Carmelo Anthony',
+  'Joakim Noah',
+  'Courtney Lee',
+  'Derrick Rose',
+  'Kristaps Porzingis',
+];
+
+const cavsN = [
+  'LeBron James',
+  'JR Smith',
+  'Kevin Love',
+  'Kyrie Irving',
+  'Tristan Thompson',
+];
+
+const knicksN = [
   'Carmelo Anthony',
   'Joakim Noah',
   'Courtney Lee',
@@ -85,11 +105,41 @@ module.exports = {
       contentType: 'application/json',
       dataType: 'json',
     }).done((response) => {
+      console.log(knicksScore, cavsScore);
       if(response == null) {
         console.log('server responded with no matches');
         return;
       } else if (response && response['playerID'] == 'nobody') {
         console.log('nobody matches bc they are not famous');
+        if(parseInt(response['teamID']) == 5) {
+          points = parseInt(response['pts']);
+          knicksScore += points;
+
+          for(let i=0; i<5; i++) {
+            playerStats[cavsN[i]]['pm'] -= points;
+            playerStats[knicksN[i]]['pm'] += points;            
+          }
+
+        } else {
+          points = parseInt(response['pts']);
+          cavsScore += points;
+
+          for(let i=0; i<5; i++) {
+            playerStats[cavsN[i]]['pm'] += points;
+            playerStats[knicksN[i]]['pm'] -= points;            
+          }
+        }
+
+        radar.updateValues([
+          [
+            { axis: "+/-", value: playerStats[currentPlayer]['pm'] / 10},
+            { axis: "AST", value: playerStats[currentPlayer]['ast'] / 10},
+            { axis: "FG%", value: playerStats[currentPlayer]['tfgm'] / ((playerStats[currentPlayer]['tfga']) ? (playerStats[currentPlayer]['tfga']) : 1)},
+            { axis: "3P%", value: playerStats[currentPlayer]['3fgm'] / ((playerStats[currentPlayer]['3fga']) ? (playerStats[currentPlayer]['3fga']) : 1)},
+            { axis: "PTS", value: playerStats[currentPlayer]['pts'] / 20},
+          ],
+        ]);
+
         return;
       } else {
         console.log(response);
