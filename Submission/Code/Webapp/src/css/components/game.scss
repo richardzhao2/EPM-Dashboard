@@ -1,0 +1,14 @@
+.game {
+  &.frame {
+    height: $courtWidth * $courtRatio;
+    width: $gameWidth;
+    max-width: $courtWidth;
+
+    background-image: url('../images/court.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    border: 1px solid black;
+  }
+}

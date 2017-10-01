@@ -1,0 +1,62 @@
+.dashboard {
+  height: $courtWidth * $courtRatio;
+  width: $buttonSize + 20px;
+  margin-right: 10px;
+  flex-shrink: 0;
+  
+  .buttons-wrapper {
+    height: $courtWidth * $courtRatio;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .buttons {
+    height: $buttonSize;
+    width: $buttonSize;
+    cursor: pointer;
+    transition-duration: 0.3s;
+
+    &:hover {
+      opacity: 0.5;
+    }
+
+    &.back {
+      background-image: url('../images/play.jpg') ;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: $buttonSize - 5px;
+      transform: rotate(180deg);
+    }
+
+    &.play {
+      margin-top: 10px;
+
+      background-image: url('../images/play.jpg') ;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: $buttonSize - 5px;
+    }
+    &.wrapper {
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      margin-top: 10px;
+
+      .pause {
+        height: $buttonSize - 13px; 
+        width: $buttonSize - 13px;
+        margin: auto;
+        background: url('../images/pause.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: $buttonSize - 20px;
+  
+        border-radius: 50%;
+        border: 5px solid black;
+      }
+    }
+  }
+  
+}

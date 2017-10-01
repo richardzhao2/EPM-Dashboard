@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <title>Decision Making Simulator</title>
+  </head>
+  <body>
+    <div class='header'>
+      <div class='title'>
+        <span>NBA Real Time Boxscore</span>
+      </div>
+
+      <div class='versus'>
+        <div class='knicks'>
+          <span>New York Knicks</span>
+        </div>
+        
+        <div class='cavs'>
+          <span>Cleveland Cavaliers</span>
+        </div>
+      </div>
+    </div>
+
+    <div class='main wrapper'>
+      <div class='dashboard'>
+          <div class='buttons-wrapper'>
+            <div class='buttons back'></div>
+            <div class='buttons play'></div>
+            <div class='buttons wrapper'>
+                <div class='pause'></div>
+            </div>
+          </div>
+        </div>
+      <div class='game frame'>
+        <div class='game data' id='plot'></div>
+      </div>
+    </div>
+
+    <div class='graphs'>
+      <div class = 'wrapper-data'>
+        <div class='radar'></div>
+        <div class="select one" id='firstSelect' tabindex="1">
+  <input class="selectopt" name="test" type="radio" id="opt1" value='Carmelo Anthony' checked>
+  <label for="opt1" class="option" >Carmelo Anthony</label>
+  <input class="selectopt" name="test" type="radio" id="opt2" value='Kristaps Porzingis'>
+  <label for="opt2" class="option">Kristaps Porzingis</label>
+  <input class="selectopt" name="test" type="radio" id="opt3" value='Derrick Rose'>
+  <label for="opt3" class="option">Derrick Rose</label>
+  <input class="selectopt" name="test" type="radio" id="opt4" value='Courtney Lee'>
+  <label for="opt4" class="option">Courtney Lee</label>
+  <input class="selectopt" name="test" type="radio" id="opt5" value='Joakim Noah'>
+  <label for="opt5" class="option">Joakim Noah</label>
+</div>
+      </div>
+      
+      <div class = 'wrapper-data two'>
+        <div id='line-chart'></div>
+        <div class="select two" tabindex="1">
+  <input class="selectopt" name="test2" type="radio" id="opt1" checked>
+  <label for="opt1" class="option">Star Comparison</label>
+  <input class="selectopt" name="test2" type="radio" id="opt2">
+  <label for="opt2" class="option">Starters</label>
+  <input class="selectopt" name="test2" type="radio" id="opt3">
+  <label for="opt3" class="option">Bench</label>
+  <input class="selectopt" name="test2" type="radio" id="opt4">
+  <label for="opt4" class="option">Team</label>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
